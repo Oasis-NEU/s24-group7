@@ -1,5 +1,3 @@
-.DS_Store
-
 # Ignore all
 *
 
@@ -8,3 +6,5 @@
 
 # Unignore all dirs
 !*/
+
+.DS_Store
