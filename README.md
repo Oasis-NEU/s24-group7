@@ -1,4 +1,4 @@
-PURPOSE OF PROJECT: Students at Northeastern University are often lost in the tunnels. The goal of this project is to provide a navigation system that calculates the shortest path from a given source to a given destination. The path will include detailed turn-by-turn instructions. 
+PURPOSE OF PROJECT: Students at Northeastern University (NU or NEU) are often lost in the tunnels. The goal is to provide a navigation system that calculates the shortest path from a given source to a given destination. The path will include detailed turn-by-turn instructions. Developed for the "tunul" project at Oasis, a club at NU.
 
 HOW TO START THIS PROJECT: Open the folder using VS Code, or open Dijkstra.cpp using an IDE of choice.
 
