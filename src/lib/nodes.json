@@ -1,0 +1,18 @@
+{
+  "nodes": [
+    { "index": -1, "name": "Select a Location" },
+    { "index": 0, "name": "Snell Ground" },
+    { "index": 1, "name": "Swess? Intersection" },
+    { "index": 2, "name": "Churchill Tunnel" },
+    { "index": 3, "name": "Snell Tunnel" },
+    { "index": 4, "name": "Hayden Intersection" },
+    { "index": 5, "name": "Hayden Dunkin'" },
+    { "index": 6, "name": "Richards Ground" },
+    { "index": 7, "name": "Ell Tunnel Right" },
+    { "index": 8, "name": "Ell Ground Right" },
+    { "index": 9, "name": "Curry Service Desk" },
+    { "index": 10, "name": "Ell Tunnel Left" },
+    { "index": 11, "name": "Ell Ground Left" },
+    { "index": 12, "name": "Mugar Ground" }
+  ]
+}
