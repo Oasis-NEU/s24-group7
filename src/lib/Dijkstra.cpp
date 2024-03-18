@@ -12,7 +12,7 @@ using namespace std;
 
 int source, destination;
 
-const names[V] = {
+string names[V] = {
     "SNELL GROUND",
     "SWEESS INTERSECTION",
     "CHURCHILL TUNNEL",

@@ -5,7 +5,7 @@ const V = 13;
 
 const locNames = [
   "Snell Ground",
-  "Swess? Intersection",
+  "Sweess Intersection",
   "Churchill Tunnel",
   "Snell Tunnel",
   "Hayden Intersection",
