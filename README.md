@@ -2,7 +2,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, install Next.js for the project folder:
+First, install Node.js:
+
+https://nodejs.org/en/download/current
+
+Then, install Next.js for the project folder:
 
 ```bash
 npm i next
