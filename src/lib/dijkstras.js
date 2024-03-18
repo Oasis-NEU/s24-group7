@@ -1,9 +1,10 @@
-// the same dijkstras algorithm but rewritten in javascript
+// the same Dijkstra.cpp but rewritten in JavaScript
 // just in case it's easier to make that work with the react app
+// to run, use Chrome console
 
 const V = 13;
 
-const locNames = [
+const names = [
   "Snell Ground",
   "Sweess Intersection",
   "Churchill Tunnel",
