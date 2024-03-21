@@ -2,7 +2,7 @@
 // just in case it's easier to make that work with the react app
 // to run, use Chrome console
 
-const V = 13;
+const V = 15;
 
 const names = [
   "Snell Ground",
@@ -18,6 +18,8 @@ const names = [
   "Ell Tunnel Left",
   "Ell Ground Left",
   "Mugar Ground",
+  "Dodge Tunnel",
+  "Dodge Ground",
 ];
 
 function minDistance(dist, sptSet) {
@@ -100,19 +102,21 @@ function dijkstras(graph, src, destination) {
 }
 
 const graph = [
-  [0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL GROUND (0)
-  [60, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SWEESS INTERSECTION (1)
-  [0, 55, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0], // CHURCHILL TUNNEL (2)
-  [0, 0, 18, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL TUNNEL (3)
-  [0, 0, 0, 55, 0, 35, 35, 15, 0, 0, 0, 0, 0], // HAYDEN INTERSECTION (4)
-  [0, 0, 0, 0, 35, 0, 22, 0, 0, 0, 0, 0, 0], // HAYDEN DUNKIN' (5)
-  [0, 0, 0, 0, 35, 22, 0, 0, 0, 0, 0, 0, 0], // RICHARDS GROUND (6)
-  [0, 0, 0, 0, 15, 0, 0, 0, 18, 38, 30, 0, 0], // ELL TUNNEL RIGHT (7)
-  [0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 30, 0, 0], // ELL GROUND RIGHT (8)
-  [0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 30, 0, 0], // CURRY SERVICE DESK (9)
-  [0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 20, 44], // ELL TUNNEL LEFT (10)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0], // ELL GROUND LEFT (11)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0], // MUGAR GROUND (12)
+  [0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL GROUND (0)
+  [60, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SWEESS INTERSECTION (1)
+  [0, 55, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // CHURCHILL TUNNEL (2)
+  [0, 0, 18, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL TUNNEL (3)
+  [0, 0, 0, 55, 0, 35, 35, 15, 0, 0, 0, 0, 0, 0, 0], // HAYDEN INTERSECTION (4)
+  [0, 0, 0, 0, 35, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0], // HAYDEN DUNKIN' (5)
+  [0, 0, 0, 0, 35, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0], // RICHARDS GROUND (6)
+  [0, 0, 0, 0, 15, 0, 0, 0, 18, 38, 30, 0, 0, 0, 0], // ELL TUNNEL RIGHT (7)
+  [0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 30, 0, 0, 0, 0], // ELL GROUND RIGHT (8)
+  [0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 30, 0, 0, 0, 0], // CURRY SERVICE DESK (9)
+  [0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 20, 44, 30, 0], // ELL TUNNEL LEFT (10)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0], // ELL GROUND LEFT (11)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0], // MUGAR GROUND (12)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 22], // DODGE TUNNEL (13)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0], // DODGE GROUND (14)
 ];
 
 const source = parseInt(prompt("Enter Source: "));
