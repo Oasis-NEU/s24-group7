@@ -1,6 +1,5 @@
 {
   "nodes": [
-    { "index": -1, "name": "Select a Location" },
     { "index": 0, "name": "Snell Ground" },
     { "index": 1, "name": "Sweess Intersection" },
     { "index": 2, "name": "Churchill Tunnel" },

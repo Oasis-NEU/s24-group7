@@ -2,24 +2,26 @@
 // just in case it's easier to make that work with the react app
 // to run, use Chrome console
 
-const V = 15;
+import locations from "@/lib/nodes.json";
 
-const names = [
-  "Snell Ground",
-  "Sweess Intersection",
-  "Churchill Tunnel",
-  "Snell Tunnel",
-  "Hayden Intersection",
-  "Hayden Dunkin'",
-  "Richards Ground",
-  "Ell Tunnel Right",
-  "Ell Ground Right",
-  "Curry Service Desk",
-  "Ell Tunnel Left",
-  "Ell Ground Left",
-  "Mugar Ground",
-  "Dodge Tunnel",
-  "Dodge Ground",
+const V = locations.nodes.length;
+const names = locations.nodes.map((item) => item.name);
+const graph = [
+  [0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL GROUND (0)
+  [60, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SWEESS INTERSECTION (1)
+  [0, 55, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // CHURCHILL TUNNEL (2)
+  [0, 0, 18, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL TUNNEL (3)
+  [0, 0, 0, 55, 0, 35, 35, 15, 0, 0, 0, 0, 0, 0, 0], // HAYDEN INTERSECTION (4)
+  [0, 0, 0, 0, 35, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0], // HAYDEN DUNKIN' (5)
+  [0, 0, 0, 0, 35, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0], // RICHARDS GROUND (6)
+  [0, 0, 0, 0, 15, 0, 0, 0, 18, 38, 30, 0, 0, 0, 0], // ELL TUNNEL RIGHT (7)
+  [0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 30, 0, 0, 0, 0], // ELL GROUND RIGHT (8)
+  [0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 30, 0, 0, 0, 0], // CURRY SERVICE DESK (9)
+  [0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 20, 44, 30, 0], // ELL TUNNEL LEFT (10)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0], // ELL GROUND LEFT (11)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0], // MUGAR GROUND (12)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 22], // DODGE TUNNEL (13)
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0], // DODGE GROUND (14)
 ];
 
 function minDistance(dist, sptSet) {
@@ -35,50 +37,63 @@ function minDistance(dist, sptSet) {
   return min_index;
 }
 
-function printPath(parent, j, src) {
+function getPath(parent, j, source) {
+  let path = "";
+
   if (parent[j] === -1) {
-    console.log(names[src] + " ");
-    return;
+    path += names[source] + " ";
+    return path;
   }
 
-  printPath(parent, parent[j], src);
-  console.log("-> " + names[j] + " ");
+  path += getPath(parent, parent[j], source);
+  path += "-> " + names[j] + " ";
+  console.log(path);
 }
 
+/**
+ * Returns the sum of two numbers.
+ * @returns {String} Solution
+ */
 function printSolution(dist, parent, src, dest) {
-  console.log("Shortest path from " + names[src] + " to " + names[dest] + ":");
-  printPath(parent, dest, src);
-  console.log();
-  console.log("Seconds to Walk: " + dist[dest]);
-  console.log(
-    "Time to Walk: " +
-      Math.floor(dist[dest] / 60) +
-      " minutes, " +
-      (dist[dest] - Math.floor(dist[dest] / 60) * 60) +
-      " seconds"
-  );
+  let result = "";
+  result += "Shortest path from " + names[src] + " to " + names[dest] + ":\n";
+  result += getPath(parent, dest, src) + "\n";
+  result += "\nSeconds to Walk: " + dist[dest];
+  result +=
+    "\nTime to Walk: " +
+    Math.floor(dist[dest] / 60) +
+    " minutes, " +
+    (dist[dest] - Math.floor(dist[dest] / 60) * 60) +
+    " seconds";
+  return result;
 }
 
 function printAllSolution(dist, parent, src) {
   console.log("Vertex \t\t\t\t Distance from Source \t\t Path");
   for (let i = 0; i < V; i++) {
     console.log(names[i] + " \t\t " + dist[i] + " \t\t\t\t ");
-    printPath(parent, i, src);
+    getPath(parent, i, src);
     console.log();
   }
 }
 
-function dijkstras(graph, src, destination) {
+/**
+ * Returns the path between a source and dest node
+ * @param {number} source
+ * @param {number} destination
+ * @returns {Any} Solution
+ */
+function dijkstras(source, destination) {
   const dist = new Array(V);
   const sptSet = new Array(V).fill(false);
   const parent = new Array(V).fill(-1);
 
   for (let i = 0; i < V; i++) {
-    dist[i] = Infinity;
+    dist[i] = 0;
     sptSet[i] = false;
   }
 
-  dist[src] = 0;
+  dist[source] = 0;
 
   for (let count = 0; count < V - 1; count++) {
     const u = minDistance(dist, sptSet);
@@ -98,29 +113,7 @@ function dijkstras(graph, src, destination) {
   }
 
   // printAllSolution(dist, parent, src);
-  printSolution(dist, parent, src, destination);
+  printSolution(dist, parent, source, destination);
 }
 
-const graph = [
-  [0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL GROUND (0)
-  [60, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SWEESS INTERSECTION (1)
-  [0, 55, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // CHURCHILL TUNNEL (2)
-  [0, 0, 18, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL TUNNEL (3)
-  [0, 0, 0, 55, 0, 35, 35, 15, 0, 0, 0, 0, 0, 0, 0], // HAYDEN INTERSECTION (4)
-  [0, 0, 0, 0, 35, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0], // HAYDEN DUNKIN' (5)
-  [0, 0, 0, 0, 35, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0], // RICHARDS GROUND (6)
-  [0, 0, 0, 0, 15, 0, 0, 0, 18, 38, 30, 0, 0, 0, 0], // ELL TUNNEL RIGHT (7)
-  [0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 30, 0, 0, 0, 0], // ELL GROUND RIGHT (8)
-  [0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 30, 0, 0, 0, 0], // CURRY SERVICE DESK (9)
-  [0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 20, 44, 30, 0], // ELL TUNNEL LEFT (10)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0], // ELL GROUND LEFT (11)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0], // MUGAR GROUND (12)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 22], // DODGE TUNNEL (13)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0], // DODGE GROUND (14)
-];
-
-const source = parseInt(prompt("Enter Source: "));
-const destination = parseInt(prompt("Enter Destination: "));
-
-console.log();
-dijkstras(graph, source, destination);
+export default dijkstras;

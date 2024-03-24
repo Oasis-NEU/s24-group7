@@ -12,12 +12,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+
+import dijkstras from "@/lib/dijkstras";
 
 const locations = locNames.nodes.map((item) => item.name);
 
-export function getLoc(index: Number) {
+export function getLoc(index: number) {
   const item = locNames.nodes.find((item) => item.index === index);
   return item ? item.name : "";
+}
+
+export function printDijk(origin: number, destination: number) {
+  <div className="text-xl white-400">{dijkstras(origin, destination)}</div>;
 }
 
 export default function Home() {
@@ -86,6 +93,12 @@ export default function Home() {
           </Select>
         </div>
       </div>
+      <Button
+        className="relative flex mt-3 h-16 text-2xl place-items-center w-56 bg-primary"
+        onClick={() => printDijk(origin, destination)}
+      >
+        Get Path
+      </Button>
     </main>
   );
 }
