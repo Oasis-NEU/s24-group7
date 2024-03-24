@@ -24,7 +24,7 @@ export function getLoc(index: number) {
 }
 
 export function printDijk(origin: number, destination: number) {
-  <div className="text-xl white-400">{dijkstras(origin, destination)}</div>;
+  <div className="text-xl white-400">"{dijkstras(origin, destination)}</div>;
 }
 
 export default function Home() {

@@ -1,12 +1,23 @@
-// the same Dijkstra.cpp but rewritten in JavaScript
-// just in case it's easier to make that work with the react app
-// to run, use Chrome console
 
-import locations from "@/lib/nodes.json";
-
-let path = "";
-const V = locations.nodes.length;
-const names = locations.nodes.map((item) => item.name);
+let path = "hello world";
+const V = 15;
+const names = [
+  "Snell Ground",
+  "Sweess Intersection",
+  "Churchill Tunnel",
+  "Snell Tunnel",
+  "Hayden Intersection",
+  "Hayden Dunkin'",
+  "Richards Ground",
+  "Ell Tunnel Right",
+  "Ell Ground Right",
+  "Curry Service Desk",
+  "Ell Tunnel Left",
+  "Ell Ground Left",
+  "Mugar Ground",
+  "Dodge Tunnel",
+  "Dodge Ground",
+];
 const graph = [
   [0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL GROUND (0)
   [60, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SWEESS INTERSECTION (1)
@@ -48,7 +59,7 @@ function getPath(parent, j, source) {
   //path += "-> " + names[j] + " ";
   //path += getPath(parent, parent[j], source);
   path += "-> " + names[j] + " ";
-  //console.log(path); 
+  console.log(path); 
 }
 
 /**
@@ -67,15 +78,6 @@ function printSolution(dist, parent, src, dest) {
     (dist[dest] - Math.floor(dist[dest] / 60) * 60) +
     " seconds";
   return result;
-}
-
-function printAllSolution(dist, parent, src) {
-  console.log("Vertex \t\t\t\t Distance from Source \t\t Path");
-  for (let i = 0; i < V; i++) {
-    console.log(names[i] + " \t\t " + dist[i] + " \t\t\t\t ");
-    getPath(parent, i, src);
-    console.log();
-  }
 }
 
 /**
@@ -112,9 +114,12 @@ function dijkstras(source, destination) {
       }
     }
   }
-
-  // printAllSolution(dist, parent, src);
   printSolution(dist, parent, source, destination);
 }
 
-export default dijkstras;
+const source = parseInt(prompt("Enter Source: "));
+const destination = parseInt(prompt("Enter Destination: "));
+
+console.log();
+dijkstras(graph, source, destination);
+console.log(path);
