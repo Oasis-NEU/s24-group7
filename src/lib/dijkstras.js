@@ -5,6 +5,7 @@
 import locations from "@/lib/nodes.json";
 
 let path = "";
+let result = "";
 const V = locations.nodes.length;
 const names = locations.nodes.map((item) => item.name);
 const graph = [
@@ -38,23 +39,15 @@ function minDistance(dist, sptSet) {
   return min_index;
 }
 
-function getPath(parent, j, source) {
-
-  if (parent[j] === -1) {
-    path += names[source] + " ";
-    return path;
+function getRestPath(parent, destination) {
+  let currentVertex = destination;
+  while (currentVertex !== -1) {
+    path = "-> " + names[currentVertex] + " " + path;
+    currentVertex = parent[currentVertex];
   }
-
-  //path += "-> " + names[j] + " ";
-  //path += getPath(parent, parent[j], source);
-  path += "-> " + names[j] + " ";
-  //console.log(path); 
+  return path;
 }
 
-/**
- * Returns the sum of two numbers.
- * @returns {String} Solution
- */
 function printSolution(dist, parent, src, dest) {
   let result = "";
   result += "Shortest path from " + names[src] + " to " + names[dest] + ":\n";
@@ -113,7 +106,7 @@ function dijkstras(source, destination) {
     }
   }
 
-  // printAllSolution(dist, parent, src);
+  getRestPath(parent, destination);
   printSolution(dist, parent, source, destination);
 }
 

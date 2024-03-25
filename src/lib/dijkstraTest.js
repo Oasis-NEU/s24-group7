@@ -1,5 +1,6 @@
 
-let path = "hello world";
+let path = "";
+let result = "";
 const V = 15;
 const names = [
   "Snell Ground",
@@ -42,34 +43,24 @@ function minDistance(dist, sptSet) {
 
   for (let v = 0; v < V; v++) {
     if (sptSet[v] === false && dist[v] <= min) {
-      min = dist[v];
-      min_index = v;
+        min = dist[v];
+        min_index = v;
     }
   }
   return min_index;
 }
 
-function getPath(parent, j, source) {
-
-  if (parent[j] === -1) {
-    path += names[source] + " ";
-    return path;
+function getRestPath(parent, destination) {
+  let currentVertex = destination;
+    while (currentVertex !== -1) {
+      path = "-> " + names[currentVertex] + " " + path;
+      currentVertex = parent[currentVertex];
+    }
   }
 
-  //path += "-> " + names[j] + " ";
-  //path += getPath(parent, parent[j], source);
-  path += "-> " + names[j] + " ";
-  console.log(path); 
-}
-
-/**
- * Returns the sum of two numbers.
- * @returns {String} Solution
- */
-function printSolution(dist, parent, src, dest) {
-  let result = "";
-  result += "Shortest path from " + names[src] + " to " + names[dest] + ":\n";
-  result += getPath(parent, dest, src) + "\n";
+function printSolution(dist, parent, source, dest) {
+  result += "Shortest path from " + names[source] + " to " + names[dest] + ":\n";
+  result += "\n" + path + "\n";
   result += "\nSeconds to Walk: " + dist[dest];
   result +=
     "\nTime to Walk: " +
@@ -77,7 +68,6 @@ function printSolution(dist, parent, src, dest) {
     " minutes, " +
     (dist[dest] - Math.floor(dist[dest] / 60) * 60) +
     " seconds";
-  return result;
 }
 
 /**
@@ -86,13 +76,13 @@ function printSolution(dist, parent, src, dest) {
  * @param {number} destination
  * @returns {Any} Solution
  */
-function dijkstras(source, destination) {
+function dijkstras(graph, source, destination) {
   const dist = new Array(V);
   const sptSet = new Array(V).fill(false);
   const parent = new Array(V).fill(-1);
 
   for (let i = 0; i < V; i++) {
-    dist[i] = 0;
+    dist[i] = Infinity;
     sptSet[i] = false;
   }
 
@@ -114,6 +104,8 @@ function dijkstras(source, destination) {
       }
     }
   }
+
+  getRestPath(parent, destination);
   printSolution(dist, parent, source, destination);
 }
 
@@ -122,4 +114,4 @@ const destination = parseInt(prompt("Enter Destination: "));
 
 console.log();
 dijkstras(graph, source, destination);
-console.log(path);
+console.log(result);
