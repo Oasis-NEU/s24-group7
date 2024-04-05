@@ -8,7 +8,7 @@ let path = "";
 let result = "";
 const V = locations.nodes.length;
 const names = locations.nodes.map((item) => item.name);
-const graph = [
+export const graph = [
   [0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL GROUND (0)
   [60, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SWEESS INTERSECTION (1)
   [0, 55, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // CHURCHILL TUNNEL (2)
@@ -42,16 +42,15 @@ function minDistance(dist, sptSet) {
 function getRestPath(parent, destination) {
   let currentVertex = destination;
   while (currentVertex !== -1) {
-    path = "-> " + names[currentVertex] + " " + path;
+    path = names[currentVertex] + path;
     currentVertex = parent[currentVertex];
   }
   return path;
 }
 
 function printSolution(dist, parent, src, dest) {
-  let result = "";
   result += "Shortest path from " + names[src] + " to " + names[dest] + ":\n";
-  result += getPath(parent, dest, src) + "\n";
+  result != "\n" + path + "\n";
   result += "\nSeconds to Walk: " + dist[dest];
   result +=
     "\nTime to Walk: " +
@@ -59,7 +58,6 @@ function printSolution(dist, parent, src, dest) {
     " minutes, " +
     (dist[dest] - Math.floor(dist[dest] / 60) * 60) +
     " seconds";
-  return result;
 }
 
 function printAllSolution(dist, parent, src) {
@@ -77,7 +75,7 @@ function printAllSolution(dist, parent, src) {
  * @param {number} destination
  * @returns {Any} Solution
  */
-function dijkstras(source, destination) {
+function dijkstras(graph, source, destination) {
   const dist = new Array(V);
   const sptSet = new Array(V).fill(false);
   const parent = new Array(V).fill(-1);
@@ -108,6 +106,7 @@ function dijkstras(source, destination) {
 
   getRestPath(parent, destination);
   printSolution(dist, parent, source, destination);
+  return path;
 }
 
 export default dijkstras;

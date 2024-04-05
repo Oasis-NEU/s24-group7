@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
-import dijkstras from "@/lib/dijkstras";
+import dijkstras, { graph } from "@/lib/dijkstras";
 
 const locations = locNames.nodes.map((item) => item.name);
 
@@ -24,12 +24,20 @@ export function getLoc(index: number) {
 }
 
 export function printDijk(origin: number, destination: number) {
-  <div className="text-xl white-400">"{dijkstras(origin, destination)}</div>;
+  {
+    console.log(dijkstras(graph, 2, 4));
+  }
 }
 
 export default function Home() {
   const [origin, setOrigin] = useState(0);
   const [destination, setDestination] = useState(0);
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowPopup(true);
+  };
 
   return (
     <main className="flex flex-col justify-center items-center">
@@ -95,10 +103,24 @@ export default function Home() {
       </div>
       <Button
         className="relative flex mt-3 h-16 text-2xl place-items-center w-56 bg-primary"
-        onClick={() => printDijk(origin, destination)}
+        onClick={handleButtonClick}
       >
         Get Path
       </Button>
+      {showPopup && (
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg">
+            <h2 className="text-xl text-black">Popup Text Box</h2>
+            <p className="text-black">
+              {dijkstras(graph, origin, destination)}
+            </p>
+            <button
+              className="mt-4 bg-primary text-black px-4 py-2 rounded"
+              onClick={() => setShowPopup(false)}
+            ></button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
