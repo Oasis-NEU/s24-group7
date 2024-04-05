@@ -70,12 +70,6 @@ function printSolution(dist, parent, source, dest) {
     " seconds";
 }
 
-/**
- * Returns the path between a source and dest node
- * @param {number} source
- * @param {number} destination
- * @returns {Any} Solution
- */
 function dijkstras(graph, source, destination) {
   const dist = new Array(V);
   const sptSet = new Array(V).fill(false);

@@ -59,13 +59,9 @@ function printSolution(dist, parent, src, dest) {
     " seconds";
 }
 
-/**
- * Returns the path between a source and dest node
- * @param {number} source
- * @param {number} destination
- * @returns {Any} Solution
- */
 function dijkstras(graph, source, destination) {
+  path = "";
+  result = "";
   source = locations.nodes.findIndex((item) => item.name === source);
   destination = locations.nodes.findIndex((item) => item.name === destination);
 
