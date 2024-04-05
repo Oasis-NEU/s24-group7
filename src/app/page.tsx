@@ -25,7 +25,7 @@ export function getLoc(index: number) {
 
 export function printDijk(origin: number, destination: number) {
   {
-    console.log(dijkstras(graph, 2, 4));
+    console.log(dijkstras(graph, origin, destination));
   }
 }
 
@@ -49,7 +49,9 @@ export default function Home() {
           <Label className="mr-4">Origin: </Label>
           <Select
             value={origin}
-            onValueChange={setOrigin as (value: SetStateAction<number>) => void}
+            onValueChange={
+              setOrigin as (value: SetStateAction<number>) => number
+            }
             required={true}
           >
             <SelectTrigger className="w-full" id="origin">
@@ -77,7 +79,7 @@ export default function Home() {
           <Select
             value={destination}
             onValueChange={
-              setDestination as (value: SetStateAction<number>) => void
+              setDestination as (value: SetStateAction<number>) => number
             }
             required={true}
           >

@@ -42,15 +42,14 @@ function minDistance(dist, sptSet) {
 function getRestPath(parent, destination) {
   let currentVertex = destination;
   while (currentVertex !== -1) {
-    path = names[currentVertex] + path;
+    path = "-> " + names[currentVertex] + path;
     currentVertex = parent[currentVertex];
   }
-  return path;
 }
 
 function printSolution(dist, parent, src, dest) {
   result += "Shortest path from " + names[src] + " to " + names[dest] + ":\n";
-  result != "\n" + path + "\n";
+  result += "\n" + path + "\n";
   result += "\nSeconds to Walk: " + dist[dest];
   result +=
     "\nTime to Walk: " +
@@ -60,15 +59,6 @@ function printSolution(dist, parent, src, dest) {
     " seconds";
 }
 
-function printAllSolution(dist, parent, src) {
-  console.log("Vertex \t\t\t\t Distance from Source \t\t Path");
-  for (let i = 0; i < V; i++) {
-    console.log(names[i] + " \t\t " + dist[i] + " \t\t\t\t ");
-    getPath(parent, i, src);
-    console.log();
-  }
-}
-
 /**
  * Returns the path between a source and dest node
  * @param {number} source
@@ -76,12 +66,15 @@ function printAllSolution(dist, parent, src) {
  * @returns {Any} Solution
  */
 function dijkstras(graph, source, destination) {
+  source = locations.nodes.findIndex((item) => item.name === source);
+  destination = locations.nodes.findIndex((item) => item.name === destination);
+
   const dist = new Array(V);
   const sptSet = new Array(V).fill(false);
   const parent = new Array(V).fill(-1);
 
   for (let i = 0; i < V; i++) {
-    dist[i] = 0;
+    dist[i] = Infinity;
     sptSet[i] = false;
   }
 
@@ -106,7 +99,8 @@ function dijkstras(graph, source, destination) {
 
   getRestPath(parent, destination);
   printSolution(dist, parent, source, destination);
-  return path;
+  console.log("Result: ", result);
+  return result;
 }
 
 export default dijkstras;
