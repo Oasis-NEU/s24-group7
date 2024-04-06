@@ -3,30 +3,16 @@
 // to run, use Chrome console
 
 import locations from "@/lib/nodes.json";
+import { graph, graphTurns } from "@/lib/graphs";
 
 let path = "";
 let result = "";
 export let time = "";
+const graphLoc = graph;
+const graphDir = graphTurns;
 
 const V = locations.nodes.length;
 const names = locations.nodes.map((item) => item.name);
-export const graph = [
-  [0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL GROUND (0)
-  [60, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SWEESS INTERSECTION (1)
-  [0, 55, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // CHURCHILL TUNNEL (2)
-  [0, 0, 18, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL TUNNEL (3)
-  [0, 0, 0, 55, 0, 35, 35, 15, 0, 0, 0, 0, 0, 0, 0], // HAYDEN INTERSECTION (4)
-  [0, 0, 0, 0, 35, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0], // HAYDEN DUNKIN' (5)
-  [0, 0, 0, 0, 35, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0], // RICHARDS GROUND (6)
-  [0, 0, 0, 0, 15, 0, 0, 0, 18, 38, 30, 0, 0, 0, 0], // ELL TUNNEL RIGHT (7)
-  [0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 30, 0, 0, 0, 0], // ELL GROUND RIGHT (8)
-  [0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 30, 0, 0, 0, 0], // CURRY SERVICE DESK (9)
-  [0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 20, 44, 30, 0], // ELL TUNNEL LEFT (10)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0], // ELL GROUND LEFT (11)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0], // MUGAR GROUND (12)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 22], // DODGE TUNNEL (13)
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0], // DODGE GROUND (14)
-];
 
 function minDistance(dist, sptSet) {
   let min = Infinity;
@@ -40,16 +26,8 @@ function minDistance(dist, sptSet) {
   }
   return min_index;
 }
-/*
-function getRestPath(parent, destination) {
-  let currentVertex = destination;
-  while (currentVertex !== -1) {
-    path = "-> " + names[currentVertex] + "\n" + path;
-    currentVertex = parent[currentVertex];
-  }
-} */
 
-function getRestPath(dist, parent, destination) {
+function getRestPath(dist, parent, destination, turns) {
   let currentVertex = destination;
   while (currentVertex !== -1) {
     const previousVertex = parent[currentVertex];
@@ -62,7 +40,9 @@ function getRestPath(dist, parent, destination) {
       seconds +
       " seconds) " +
       " ^ " +
-      "-> " +
+      "@" +
+      turns[currentVertex] +
+      "@" +
       names[currentVertex] +
       path;
     currentVertex = previousVertex; // Update currentVertex to its parent for the next iteration
@@ -94,6 +74,7 @@ function dijkstras(graph, source, destination) {
   const dist = new Array(V);
   const sptSet = new Array(V).fill(false);
   const parent = new Array(V).fill(-1);
+  const turns = new Array(V);
 
   for (let i = 0; i < V; i++) {
     dist[i] = Infinity;
@@ -115,11 +96,12 @@ function dijkstras(graph, source, destination) {
       ) {
         parent[v] = u;
         dist[v] = dist[u] + graph[u][v];
+        turns[v] = graphTurns[u][v];
       }
     }
   }
 
-  getRestPath(dist, parent, destination);
+  getRestPath(dist, parent, destination, turns);
   printSolution(dist, parent, source, destination);
   printTime(dist, parent, source, destination);
   console.log("Result: ", result);
