@@ -50,8 +50,8 @@ function getRestPath(parent, destination) {
 }
 
 function printSolution(dist, parent, src, dest) {
-  result += "\n" + path + printTime(dist, parent, src, dest);
-  +"\n";
+  result += "\u000A" + path + "\u000A";
+  console.log(result);
 }
 
 function printTime(dist, parent, src, dest) {

@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <main className="flex flex-col justify-center items-center">
       <Link href="/" className="w-auto flex items-center">
-        <Image src="/tunulLogo.png" width={120} height={120} alt="tunul logo" />
+        <Image src="/tunulLogo.png" width={200} height={100} alt="tunul logo" />
       </Link>
       <div className="w-1/4 space-y-3">
         <div className="flex flex-col items-left">
@@ -133,8 +133,15 @@ export default function Home() {
             </label>
 
             <div className="align-center flex flex-col items-center justify-center">
-              <p className="text-white text-center">
-                {dijkstrasLocs(graph, origin, destination)}
+              <p className="text-white text-center -mt-3 -mb-7">
+                {dijkstrasLocs(graph, origin, destination)
+                  .split("\n")
+                  .map((line, index) => (
+                    <React.Fragment key={index}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  ))}
               </p>
               <div className="flex items-center justify-center w-full">
                 <div className="flex flex-row items-center">
