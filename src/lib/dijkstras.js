@@ -6,6 +6,8 @@ import locations from "@/lib/nodes.json";
 
 let path = "";
 let result = "";
+export let time = "";
+
 const V = locations.nodes.length;
 const names = locations.nodes.map((item) => item.name);
 export const graph = [
@@ -42,21 +44,25 @@ function minDistance(dist, sptSet) {
 function getRestPath(parent, destination) {
   let currentVertex = destination;
   while (currentVertex !== -1) {
-    path = "-> " + names[currentVertex] + path;
+    path = "-> " + names[currentVertex] + "\n" + path;
     currentVertex = parent[currentVertex];
   }
 }
 
 function printSolution(dist, parent, src, dest) {
-  result += "Shortest path from " + names[src] + " to " + names[dest] + ":\n";
-  result += "\n" + path + "\n";
-  result += "\nSeconds to Walk: " + dist[dest];
-  result +=
-    "\nTime to Walk: " +
+  result += "\n" + path + printTime(dist, parent, src, dest);
+  +"\n";
+}
+
+function printTime(dist, parent, src, dest) {
+  time = "";
+  time += "\n";
+  time +=
     Math.floor(dist[dest] / 60) +
     " minutes, " +
     (dist[dest] - Math.floor(dist[dest] / 60) * 60) +
     " seconds";
+  return time;
 }
 
 function dijkstras(graph, source, destination) {
@@ -95,6 +101,7 @@ function dijkstras(graph, source, destination) {
 
   getRestPath(parent, destination);
   printSolution(dist, parent, source, destination);
+  printTime(dist, parent, source, destination);
   console.log("Result: ", result);
   return result;
 }

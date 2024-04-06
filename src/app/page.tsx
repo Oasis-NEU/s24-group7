@@ -1,5 +1,9 @@
 "use client";
 
+import ReactDOM from "react-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWalking } from "@fortawesome/free-solid-svg-icons";
+
 import Image from "next/image";
 import Link from "next/link";
 import React, { SetStateAction, useState } from "react";
@@ -13,8 +17,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-
-import dijkstras, { graph } from "@/lib/dijkstras";
+import dijkstrasLocs from "@/lib/dijkstras";
+import { time, graph } from "@/lib/dijkstras";
 
 const locations = locNames.nodes.map((item) => item.name);
 
@@ -25,7 +29,7 @@ export function getLoc(index: number) {
 
 export function printDijk(origin: number, destination: number) {
   {
-    console.log(dijkstras(graph, origin, destination));
+    console.log(dijkstrasLocs(graph, origin, destination));
   }
 }
 
@@ -46,9 +50,8 @@ export default function Home() {
       </Link>
       <div className="w-1/4 space-y-3">
         <div className="flex flex-col items-left">
-        <Label className="mr-4 text-2xl"> Origin: </Label>
+          <Label className="mr-4 text-2xl"> Origin: </Label>
           <Select
-            style={{ width: '200px', height: '40px' }}
             value={origin}
             onValueChange={
               setOrigin as (value: SetStateAction<number>) => number
@@ -61,7 +64,7 @@ export default function Home() {
                 className="text-base sm:text-sm"
               />
             </SelectTrigger>
-            <SelectContent style={{ background: '#000000' }}>
+            <SelectContent style={{ background: "#000000" }}>
               {locations.map((org) => (
                 <SelectItem
                   key={org}
@@ -90,7 +93,7 @@ export default function Home() {
                 className="text-base sm:text-sm"
               />
             </SelectTrigger>
-            <SelectContent style={{ background: '#000000' }}>
+            <SelectContent style={{ background: "#000000" }}>
               {locations.map((dest) => (
                 <SelectItem
                   key={dest}
@@ -108,29 +111,45 @@ export default function Home() {
         className="relative flex mt-3 h-16 text-2xl place-items-center w-56 bg-primary"
         onClick={handleButtonClick}
         style={{
-          backgroundColor: 'transparent',
-          color: '#ffffff',
-          border: '2px solid #ffffff',
-          borderRadius: '4px',
-          padding: '8px 16px',
-          cursor: 'pointer',
-          transition: 'background-color 0.3s, color 0.3s',
+          backgroundColor: "transparent",
+          color: "#ffffff",
+          border: "2px solid #ffffff",
+          borderRadius: "4px",
+          padding: "8px 16px",
+          cursor: "pointer",
+          transition: "background-color 0.3s, color 0.3s",
         }}
       >
         Get Path
       </Button>
       {showPopup && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg">
-            <h2 className="text-xl text-black">Popup Text Box</h2>
-            <p className="text-black">
-              {dijkstras(graph, origin, destination)}
-            </p>
+          <div className="bg-neutral-900 p-4 rounded-lg">
+            <h2 className="text-2xl text-white text-bold flex items-center justify-center w-full font-extrabold">
+              Directions
+            </h2>
+            <label className="text-white text-lg font-medium flex items-center justify-center w-full">
+              {origin} to {destination}{" "}
+            </label>
+
+            <div className="align-center flex flex-col items-center justify-center">
+              <p className="text-white text-center">
+                {dijkstrasLocs(graph, origin, destination)}
+              </p>
+              <div className="flex items-center justify-center w-full">
+                <div className="flex flex-row items-center">
+                  <FontAwesomeIcon icon={faWalking} size="2x" />
+                  <p className="ml-2 text-lg text-white">Time: {time}</p>
+                </div>
+              </div>
+            </div>
+
             <button
-              className="mt-4 bg-primary text-black px-4 py-2 rounded"
+              className="mt-4 bg-primary px-4 py-2 rounded color-primary-500 text-lg font-medium flex items-center justify-center w-full"
               onClick={() => setShowPopup(false)}
-              style={{ color: '#000000' }}
-            ></button>
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
