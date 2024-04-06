@@ -60,7 +60,7 @@ export default function Home() {
                 className="text-base sm:text-sm"
               />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent style={{ background: '#000000' }}>
               {locations.map((org) => (
                 <SelectItem
                   key={org}
@@ -89,7 +89,7 @@ export default function Home() {
                 className="text-base sm:text-sm"
               />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent style={{ background: '#000000' }}>
               {locations.map((dest) => (
                 <SelectItem
                   key={dest}
