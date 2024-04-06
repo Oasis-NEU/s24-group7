@@ -1,24 +1,4 @@
-let path = "";
-let result = "";
-const V = 15;
-const names = [
-  "Snell Ground",
-  "Sweess Intersection",
-  "Churchill Tunnel",
-  "Snell Tunnel",
-  "Hayden Intersection",
-  "Hayden Dunkin'",
-  "Richards Ground",
-  "Ell Tunnel Right",
-  "Ell Ground Right",
-  "Curry Service Desk",
-  "Ell Tunnel Left",
-  "Ell Ground Left",
-  "Mugar Ground",
-  "Dodge Tunnel",
-  "Dodge Ground",
-];
-const graph = [
+export const graph = [
   [0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SNELL GROUND (0)
   [60, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // SWEESS INTERSECTION (1)
   [0, 55, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // CHURCHILL TUNNEL (2)
@@ -93,7 +73,7 @@ export const graphTurns = [
     "",
     "Continue Straight ",
     "",
-    "Continue Straight, Then Turn Left At The End Of The Hallway ",
+    "Continue Straight, Then Turn Left  ",
     "",
     "",
     "",
@@ -109,10 +89,10 @@ export const graphTurns = [
     "",
     "",
     "",
-    "Continue Straight, Then Turn Right At The End Of The Hallway",
+    "Continue Straight, Then Turn Right",
     "",
     "Climb The Stairs, Then Turn Right",
-    "Follow Signs For Richards Hall, Then Climb The Stairs",
+    "Follow Signs For Richards Hall, Then Stairs",
     "Follow Signs For Ell Hall",
     "",
     "",
@@ -127,7 +107,7 @@ export const graphTurns = [
     "",
     "",
     "",
-    "Descend The Stairs, Then Turn Right",
+    "Descend Stairs, Then Turn Right",
     "",
     "Continue Straight",
     "",
@@ -144,7 +124,7 @@ export const graphTurns = [
     "",
     "",
     "",
-    "Descend The Stairs, Turn Left, Turn Right",
+    "Descend Stairs, Turn Left, Turn Right",
     "Continue Straight",
     "",
     "",
@@ -182,10 +162,10 @@ export const graphTurns = [
     "",
     "",
     "",
-    "Turn Left At End Of Book Store Hallway",
+    "Turn Left At End Of Bookstore Hallway",
     "",
     "",
-    "Turn Right At End Of Book Store Hallway, Then Continue Straight",
+    "Turn Right At End Of Bookstore Hallway, Then Continue Straight",
     "",
     "",
     "",
@@ -203,11 +183,12 @@ export const graphTurns = [
     "",
     "",
     "",
-    "Descend The Stairs",
+    "Descend Stairs",
     "Turn Right At End Of Hallway, Then Climb Stairs",
     "Continue Straught",
     "",
   ], // ELL TUNNEL LEFT (10)
+  ["", "", "", "", "", "", "", "", "", "", "Descend Stairs", "", "", "", ""], // ELL GROUND LEFT (11)
   [
     "",
     "",
@@ -219,24 +200,7 @@ export const graphTurns = [
     "",
     "",
     "",
-    "Descend The Stairs",
-    "",
-    "",
-    "",
-    "",
-  ], // ELL GROUND LEFT (11)
-  [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Descend Stairs, Then Turn Left At Lockers",
+    "Descend Stairs, Turn Left At Lockers",
     "",
     "",
     "",
@@ -258,7 +222,7 @@ export const graphTurns = [
     "",
     "",
     "",
-    "Continue Straight, Then Climb The Stairs On The Left",
+    "Continue Straight, then Stairs On The Left",
   ], // DODGE TUNNEL (13)
   [
     "",
@@ -279,79 +243,3 @@ export const graphTurns = [
     "",
   ], // DODGE GROUND (14)
 ];
-
-function minDistance(dist, sptSet) {
-  let min = Infinity;
-  let min_index;
-
-  for (let v = 0; v < V; v++) {
-    if (sptSet[v] === false && dist[v] <= min) {
-      min = dist[v];
-      min_index = v;
-    }
-  }
-  return min_index;
-}
-
-function getRestPath(parent, destination, turns) {
-  let currentVertex = destination;
-  while (currentVertex !== -1) {
-    path = turns[currentVertex] + "-> " + names[currentVertex] + " " + path;
-    currentVertex = parent[currentVertex];
-  }
-}
-
-function printSolution(dist, parent, source, dest) {
-  result +=
-    "Shortest path from " + names[source] + " to " + names[dest] + ":\n";
-  result += "\n" + path + "\n";
-  result += "\nSeconds to Walk: " + dist[dest];
-  result +=
-    "\nTime to Walk: " +
-    Math.floor(dist[dest] / 60) +
-    " minutes, " +
-    (dist[dest] - Math.floor(dist[dest] / 60) * 60) +
-    " seconds";
-}
-
-function dijkstras(graph, source, destination) {
-  const dist = new Array(V);
-  const sptSet = new Array(V).fill(false);
-  const parent = new Array(V).fill(-1);
-  const turns = new Array(V);
-
-  for (let i = 0; i < V; i++) {
-    dist[i] = Infinity;
-    sptSet[i] = false;
-  }
-
-  dist[source] = 0;
-
-  for (let count = 0; count < V - 1; count++) {
-    const u = minDistance(dist, sptSet);
-    sptSet[u] = true;
-
-    for (let v = 0; v < V; v++) {
-      if (
-        !sptSet[v] &&
-        graph[u][v] &&
-        dist[u] !== Infinity &&
-        dist[u] + graph[u][v] < dist[v]
-      ) {
-        parent[v] = u;
-        dist[v] = dist[u] + graph[u][v];
-        turns[v] = graphTurns[u][v];
-      }
-    }
-  }
-
-  getRestPath(parent, destination, turns);
-  printSolution(dist, parent, source, destination);
-}
-
-const source = parseInt(prompt("Enter Source: "));
-const destination = parseInt(prompt("Enter Destination: "));
-
-console.log();
-dijkstras(graph, source, destination);
-console.log(result);

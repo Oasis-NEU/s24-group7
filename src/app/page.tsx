@@ -18,31 +18,44 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import dijkstrasLocs from "@/lib/dijkstras";
-import { time, graph } from "@/lib/dijkstras";
+import { time } from "@/lib/dijkstras";
+import { graph } from "@/lib/graphs";
+import { DoubleArrowDownIcon, Cross1Icon } from "@radix-ui/react-icons";
 
 const locations = locNames.nodes.map((item) => item.name);
 
-function getLoc(index: number) {
-  const item = locNames.nodes.find((item) => item.index === index);
-  return item ? item.name : "";
-}
-
 function StyledText({ text }: { text: string }) {
-  const parts = text.split(" ^ ");
+  // Split the processed text by "@" to identify parts that need underlining
+  const parts = text.split(/(@[^@]+@)/);
 
-  // Apply different styling based on whether the index is even or odd
+  // Apply different styling based on whether the part contains "@" or "^"
   const styledParts = parts.map((part, index) => {
-    if (index % 2 === 0) {
-      // Even indices: Apply one style
+    if (part.startsWith("@") && part.endsWith("@")) {
+      // Text surrounded by "@" should be on new line
+      const pathway = part.substring(1, part.length - 1);
       return (
-        <div key={index} className="w-full text-lg font-semibold">
-          {part}
+        <div className="align-center justify-center" key={index}>
+          <div className="w-full text-sm text-center">{pathway}</div>
+          <div className="w-full flex justify-center mb-4">
+            <DoubleArrowDownIcon />{" "}
+          </div>
         </div>
       );
+    } else if (part.includes(" ^ ")) {
+      // Text surrounded by "^" should have different styling
+      const styledText = part.split("^").map((textPart, idx) => (
+        <div
+          key={idx}
+          className={idx % 2 === 0 ? "w-full text-lg font-semibold" : "text-xs"}
+        >
+          {textPart}
+        </div>
+      ));
+      return styledText;
     } else {
-      // Odd indices: Apply another style
+      // Apply regular styling to other parts
       return (
-        <div key={index} className="italic">
+        <div key={index} className="w-full text-lg font-semibold">
           {part}
         </div>
       );
@@ -50,7 +63,7 @@ function StyledText({ text }: { text: string }) {
   });
 
   // Return the styled text
-  return <div className="text-white text-center "> {styledParts} </div>;
+  return <div className="text-white text-center">{styledParts}</div>;
 }
 
 export default function Home() {
@@ -68,14 +81,15 @@ export default function Home() {
     }
   };
 
-  const handleDropdownTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+  const handleDropdownTouchStart = (
+    event: React.TouchEvent<HTMLDivElement>
+  ) => {
     event.stopPropagation();
   };
-  
+
   const handleDropdownTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
     event.stopPropagation();
   };
-  
 
   // Function to handle clicking on the dropdown container
   const handleDropdownClick = (event: React.TouchEvent<HTMLDivElement>) => {
@@ -88,9 +102,11 @@ export default function Home() {
       <Link href="/" className="w-auto flex items-center">
         <Image src="/tunulLogo.png" width={150} height={50} alt="tunul logo" />
       </Link>
-      <div className="max-w-4xl w-96 space-y-3 -mt-8"
-      onTouchStart={handleDropdownTouchStart}
-      onTouchMove={handleDropdownTouchMove}>
+      <div
+        className="max-w-4xl w-96 space-y-3 -mt-8"
+        onTouchStart={handleDropdownTouchStart}
+        onTouchMove={handleDropdownTouchMove}
+      >
         <div className="flex flex-col items-left">
           <Label className="mr-4 text-2xl"> Origin </Label>
           <Select
@@ -104,7 +120,7 @@ export default function Home() {
               <SelectValue
                 placeholder="Select an Origin"
                 className="text-base"
-                onTouchStart = {(event) => event.stopPropagation()}
+                onTouchStart={(event) => event.stopPropagation()}
               />
             </SelectTrigger>
             <SelectContent style={{ background: "#000000" }}>
@@ -163,7 +179,7 @@ export default function Home() {
         // Disable the button if either origin or destination is empty
         disabled={!origin || !destination}
       >
-      Get Path
+        Get Path
       </Button>
       {showPopup && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
@@ -187,10 +203,10 @@ export default function Home() {
             </div>
 
             <button
-              className="mt-4 bg-primary px-4 py-2 rounded color-primary-500 text-lg font-medium flex items-center justify-center w-full"
+              className="mt-2 bg-primary px-4 py-2 rounded color-primary-500 text-lg font-medium flex items-center justify-center w-full"
               onClick={() => setShowPopup(false)}
             >
-              Close
+              <Cross1Icon />
             </button>
           </div>
         </div>
