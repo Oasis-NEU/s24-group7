@@ -22,7 +22,7 @@ import { time, graph } from "@/lib/dijkstras";
 
 const locations = locNames.nodes.map((item) => item.name);
 
-export function getLoc(index: number) {
+function getLoc(index: number) {
   const item = locNames.nodes.find((item) => item.index === index);
   return item ? item.name : "";
 }
@@ -56,8 +56,8 @@ function StyledText({ text }: { text: string }) {
 // Usage:
 
 export default function Home() {
-  const [origin, setOrigin] = useState(0);
-  const [destination, setDestination] = useState(0);
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState("");
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -76,7 +76,7 @@ export default function Home() {
           <Select
             value={origin}
             onValueChange={
-              setOrigin as (value: SetStateAction<number>) => number
+              setOrigin as (value: SetStateAction<string>) => string
             }
             required={true}
           >
@@ -101,7 +101,7 @@ export default function Home() {
           <Select
             value={destination}
             onValueChange={
-              setDestination as (value: SetStateAction<number>) => number
+              setDestination as (value: SetStateAction<string>) => string
             }
             required={true}
           >
@@ -146,7 +146,7 @@ export default function Home() {
             <h2 className="text-3xl text-white text-bold flex items-center justify-center w-full font-extrabold mb-3">
               Directions
             </h2>
-            <label className="text-white text-lg font-medium flex items-center justify-center w-full">
+            <label className="text-white text-lg font-semibold flex items-center justify-center w-full">
               {origin}
             </label>
 
