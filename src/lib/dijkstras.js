@@ -36,13 +36,12 @@ function getRestPath(dist, parent, destination, turns) {
     }
     const seconds = dist[currentVertex] - dist[previousVertex];
     path =
-      " ^ (" +
-      seconds +
-      " seconds) " +
-      " ^ " +
       "@" +
       turns[currentVertex] +
       "@" +
+      " ^ (" +
+      seconds +
+      " seconds) ^ " +
       names[currentVertex] +
       path;
     currentVertex = previousVertex; // Update currentVertex to its parent for the next iteration

@@ -31,24 +31,30 @@ function StyledText({ text }: { text: string }) {
   // Apply different styling based on whether the part contains "@" or "^"
   const styledParts = parts.map((part, index) => {
     if (part.startsWith("@") && part.endsWith("@")) {
-      // Text surrounded by "@" should be on new line
+      // Text surrounded by "@" should be on a new line
       const pathway = part.substring(1, part.length - 1);
       return (
         <div className="align-center justify-center" key={index}>
           <div className="w-full text-sm text-center">{pathway}</div>
-          <div className="w-full flex justify-center mb-4">
-            <DoubleArrowDownIcon />{" "}
-          </div>
         </div>
       );
     } else if (part.includes(" ^ ")) {
       // Text surrounded by "^" should have different styling
       const styledText = part.split("^").map((textPart, idx) => (
-        <div
-          key={idx}
-          className={idx % 2 === 0 ? "w-full text-lg font-semibold" : "text-xs"}
-        >
-          {textPart}
+        <div className="align-center justify-center" key={index + idx}>
+          <div
+            key={idx}
+            className={
+              idx % 2 === 0 ? "w-full text-lg font-semibold" : "text-xs"
+            }
+          >
+            {textPart}
+          </div>
+          {idx % 2 != 0 && (
+            <div className="w-full flex justify-center mb-4">
+              <DoubleArrowDownIcon />
+            </div>
+          )}
         </div>
       ));
       return styledText;
