@@ -17,6 +17,8 @@
 }
 
 body {
+  background-color: #000000; /* Set background color to black */
+  color: #ffffff; /* Set text color to white for better contrast */
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
