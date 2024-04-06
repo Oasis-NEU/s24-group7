@@ -27,11 +27,33 @@ export function getLoc(index: number) {
   return item ? item.name : "";
 }
 
-export function printDijk(origin: number, destination: number) {
-  {
-    console.log(dijkstrasLocs(graph, origin, destination));
-  }
+function StyledText({ text }: { text: string }) {
+  const parts = text.split(" ^ ");
+
+  // Apply different styling based on whether the index is even or odd
+  const styledParts = parts.map((part, index) => {
+    if (index % 2 === 0) {
+      // Even indices: Apply one style
+      return (
+        <div key={index} className="w-full text-lg font-semibold">
+          {part}
+        </div>
+      );
+    } else {
+      // Odd indices: Apply another style
+      return (
+        <div key={index} className="italic">
+          {part}
+        </div>
+      );
+    }
+  });
+
+  // Return the styled text
+  return <div className="text-white text-center "> {styledParts} </div>;
 }
+
+// Usage:
 
 export default function Home() {
   const [origin, setOrigin] = useState(0);
@@ -46,9 +68,9 @@ export default function Home() {
   return (
     <main className="flex flex-col justify-center items-center">
       <Link href="/" className="w-auto flex items-center">
-        <Image src="/tunulLogo.png" width={200} height={100} alt="tunul logo" />
+        <Image src="/tunulLogo.png" width={150} height={50} alt="tunul logo" />
       </Link>
-      <div className="w-1/4 space-y-3">
+      <div className="w-1/4 space-y-3 -mt-8">
         <div className="flex flex-col items-left">
           <Label className="mr-4 text-2xl"> Origin: </Label>
           <Select
@@ -61,16 +83,12 @@ export default function Home() {
             <SelectTrigger className="w-full" id="origin">
               <SelectValue
                 placeholder="Select an Origin"
-                className="text-base sm:text-sm"
+                className="text-base"
               />
             </SelectTrigger>
             <SelectContent style={{ background: "#000000" }}>
               {locations.map((org) => (
-                <SelectItem
-                  key={org}
-                  value={org}
-                  className="text-base sm:text-sm"
-                >
+                <SelectItem key={org} value={org} className="text-base">
                   {org}
                 </SelectItem>
               ))}
@@ -125,25 +143,17 @@ export default function Home() {
       {showPopup && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
           <div className="bg-neutral-900 p-4 rounded-lg">
-            <h2 className="text-2xl text-white text-bold flex items-center justify-center w-full font-extrabold">
+            <h2 className="text-3xl text-white text-bold flex items-center justify-center w-full font-extrabold mb-3">
               Directions
             </h2>
             <label className="text-white text-lg font-medium flex items-center justify-center w-full">
-              {origin} to {destination}{" "}
+              {origin}
             </label>
 
             <div className="align-center flex flex-col items-center justify-center">
-              <p className="text-white text-center -mt-3 -mb-7">
-                {dijkstrasLocs(graph, origin, destination)
-                  .split("\n")
-                  .map((line, index) => (
-                    <React.Fragment key={index}>
-                      {line}
-                      <br />
-                    </React.Fragment>
-                  ))}
-              </p>
-              <div className="flex items-center justify-center w-full">
+              <StyledText text={dijkstrasLocs(graph, origin, destination)} />
+
+              <div className="flex items-center justify-center w-full mt-3">
                 <div className="flex flex-row items-center">
                   <FontAwesomeIcon icon={faWalking} size="2x" />
                   <p className="ml-2 text-lg text-white">Time: {time}</p>

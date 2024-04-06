@@ -57,7 +57,14 @@ function getRestPath(dist, parent, destination) {
       break; // Exit the loop if there is no parent vertex
     }
     const seconds = dist[currentVertex] - dist[previousVertex];
-    path = "-> " + names[currentVertex] + "\n" + " ^ " + seconds + " seconds to" + "\n" + path;
+    path =
+      " ^ (" +
+      seconds +
+      " seconds) " +
+      " ^ " +
+      "-> " +
+      names[currentVertex] +
+      path;
     currentVertex = previousVertex; // Update currentVertex to its parent for the next iteration
   }
 }
