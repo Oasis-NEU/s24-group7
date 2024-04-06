@@ -70,9 +70,9 @@ export default function Home() {
       <Link href="/" className="w-auto flex items-center">
         <Image src="/tunulLogo.png" width={150} height={50} alt="tunul logo" />
       </Link>
-      <div className="w-1/4 space-y-3 -mt-8">
+      <div className="max-w-4xl w-96 space-y-3 -mt-8">
         <div className="flex flex-col items-left">
-          <Label className="mr-4 text-2xl"> Origin: </Label>
+          <Label className="mr-4 text-2xl"> Origin </Label>
           <Select
             value={origin}
             onValueChange={
@@ -97,7 +97,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-left">
-          <Label className="mr-4 text-2xl"> Destination: </Label>
+          <Label className="mr-4 text-2xl"> Destination </Label>
           <Select
             value={destination}
             onValueChange={
@@ -126,7 +126,7 @@ export default function Home() {
         </div>
       </div>
       <Button
-        className="relative flex mt-3 h-16 text-2xl place-items-center w-56 bg-primary"
+        className="relative flex mt-8 h-16 text-2xl place-items-center w-56 bg-primary"
         onClick={handleButtonClick}
         style={{
           backgroundColor: "transparent",
