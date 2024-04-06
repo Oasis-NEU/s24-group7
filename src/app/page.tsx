@@ -45,9 +45,10 @@ export default function Home() {
         <Image src="/tunulLogo.png" width={120} height={120} alt="tunul logo" />
       </Link>
       <div className="w-1/4 space-y-3">
-        <div className="flex items-center justify-left">
-          <Label className="mr-4">Origin: </Label>
+        <div className="flex flex-col items-left">
+        <Label className="mr-4 text-2xl"> Origin: </Label>
           <Select
+            style={{ width: '200px', height: '40px' }}
             value={origin}
             onValueChange={
               setOrigin as (value: SetStateAction<number>) => number
@@ -74,8 +75,8 @@ export default function Home() {
           </Select>
         </div>
 
-        <div className="flex items-center justify-left">
-          <Label className="mr-4">Destination: </Label>
+        <div className="flex flex-col items-left">
+          <Label className="mr-4 text-2xl"> Destination: </Label>
           <Select
             value={destination}
             onValueChange={
@@ -106,6 +107,15 @@ export default function Home() {
       <Button
         className="relative flex mt-3 h-16 text-2xl place-items-center w-56 bg-primary"
         onClick={handleButtonClick}
+        style={{
+          backgroundColor: 'transparent',
+          color: '#ffffff',
+          border: '2px solid #ffffff',
+          borderRadius: '4px',
+          padding: '8px 16px',
+          cursor: 'pointer',
+          transition: 'background-color 0.3s, color 0.3s',
+        }}
       >
         Get Path
       </Button>
@@ -119,6 +129,7 @@ export default function Home() {
             <button
               className="mt-4 bg-primary text-black px-4 py-2 rounded"
               onClick={() => setShowPopup(false)}
+              style={{ color: '#000000' }}
             ></button>
           </div>
         </div>
