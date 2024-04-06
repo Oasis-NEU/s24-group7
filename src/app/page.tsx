@@ -53,8 +53,6 @@ function StyledText({ text }: { text: string }) {
   return <div className="text-white text-center "> {styledParts} </div>;
 }
 
-// Usage:
-
 export default function Home() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -70,12 +68,29 @@ export default function Home() {
     }
   };
 
+  const handleDropdownTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  };
+  
+  const handleDropdownTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  };
+  
+
+  // Function to handle clicking on the dropdown container
+  const handleDropdownClick = (event: React.TouchEvent<HTMLDivElement>) => {
+    // Prevent click event propagation
+    event.stopPropagation();
+  };
+
   return (
     <main className="flex flex-col justify-center items-center">
       <Link href="/" className="w-auto flex items-center">
         <Image src="/tunulLogo.png" width={150} height={50} alt="tunul logo" />
       </Link>
-      <div className="max-w-4xl w-96 space-y-3 -mt-8">
+      <div className="max-w-4xl w-96 space-y-3 -mt-8"
+      onTouchStart={handleDropdownTouchStart}
+      onTouchMove={handleDropdownTouchMove}>
         <div className="flex flex-col items-left">
           <Label className="mr-4 text-2xl"> Origin </Label>
           <Select
@@ -89,6 +104,7 @@ export default function Home() {
               <SelectValue
                 placeholder="Select an Origin"
                 className="text-base"
+                onTouchStart = {(event) => event.stopPropagation()}
               />
             </SelectTrigger>
             <SelectContent style={{ background: "#000000" }}>
@@ -114,6 +130,7 @@ export default function Home() {
               <SelectValue
                 placeholder="Select a Destination"
                 className="text-base sm:text-sm"
+                onTouchStart={(event) => event.stopPropagation()}
               />
             </SelectTrigger>
             <SelectContent style={{ background: "#000000" }}>
@@ -122,6 +139,7 @@ export default function Home() {
                   key={dest}
                   value={dest}
                   className="text-base sm:text-sm"
+                  onTouchStart={(event) => event.stopPropagation()}
                 >
                   {dest}
                 </SelectItem>

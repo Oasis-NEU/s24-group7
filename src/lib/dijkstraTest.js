@@ -28,7 +28,7 @@ const graph = [
   [0, 0, 0, 0, 35, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0], // HAYDEN DUNKIN' (5)
   [0, 0, 0, 0, 35, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0], // RICHARDS GROUND (6)
   [0, 0, 0, 0, 15, 0, 0, 0, 18, 38, 30, 0, 0, 0, 0], // ELL TUNNEL RIGHT (7)
-  [0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 30, 0, 0, 0, 0], // ELL GROUND RIGHT (8)
+  [0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 0, 0], // ELL GROUND RIGHT (8)
   [0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 30, 0, 0, 0, 0], // CURRY SERVICE DESK (9)
   [0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 20, 44, 30, 0], // ELL TUNNEL LEFT (10)
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0], // ELL GROUND LEFT (11)
@@ -36,6 +36,25 @@ const graph = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 22], // DODGE TUNNEL (13)
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0], // DODGE GROUND (14)
 ];
+
+const graphTurns = [
+  ["", "continue straight ", "", "", "", "", "", "", "", "", "", "", "", "", ""], // SNELL GROUND (0)
+  ["continue straight ", "", "turn right before the elevator ", "", "", "", "", "", "", "", "", "", "", "", ""], // SWEESS INTERSECTION (1)
+  ["", "turn left at the end of the hallway ", "", "continue straight ", "", "", "", "", "", "", "", "", "", "", ""], // CHURCHILL TUNNEL (2)
+  ["", "", "continue straight ", "", "continue straight, then turn left at the end of the hallway ", "", "", "", "", "", "", "", "", "", ""], // SNELL TUNNEL (3)
+  ["", "", "", "continue straight, then turn right at the end of the hallway", "", "climb the stairs, then turn right", "follow signs for Richards Hall, then climb the stairs", "follow signs for Ell Hall", "", "", "", "", "", "", ""], // HAYDEN INTERSECTION (4)
+  ["", "", "", "", "descend the stairs, then turn right", "", "continue straight", "", "", "", "", "", "", "", ""], // HAYDEN DUNKIN' (5)
+  ["", "", "", "", "descend the stairs, turn left, turn right", "continue straight", "", "", "", "", "", "", "", "", ""], // RICHARDS GROUND (6)
+  ["", "", "", "", "continue straight", "", "", "", "climb stairs", "turn right at bookstore hallway", "continue straight", "", "", "", ""], // ELL TUNNEL RIGHT (7)
+  ["", "", "", "", "", "", "", "descend stairs", "", "", "", "", "", "", ""], // ELL GROUND RIGHT (8)
+  ["", "", "", "", "", "", "", "turn left at end of book store hallway", "", "", "turn right at end of book store hallway, then continue straight", "", "", "", ""], // CURRY SERVICE DESK (9)
+  ["", "", "", "", "", "", "", "continue straight", "", "", "", "descend the stairs", "turn right at end of hallway, then climb stairs", "continue straught", ""], // ELL TUNNEL LEFT (10)
+  ["", "", "", "", "", "", "", "", "", "", "descend the stairs", "", "", "", ""], // ELL GROUND LEFT (11)
+  ["", "", "", "", "", "", "", "", "", "", "descend stairs, then turn left at lockers", "", "", "", ""], // MUGAR GROUND (12)
+  ["", "", "", "", "", "", "", "", "", "", "continue straight", "", "", "", "", "continue straight, then climb the stairs on the left"], // DODGE TUNNEL (13)
+  ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "descend, turn right, then continue straight", ""] // DODGE GROUND (14)
+];
+
 
 function minDistance(dist, sptSet) {
   let min = Infinity;
@@ -50,10 +69,10 @@ function minDistance(dist, sptSet) {
   return min_index;
 }
 
-function getRestPath(parent, destination) {
+function getRestPath(parent, destination, turns) {
   let currentVertex = destination;
     while (currentVertex !== -1) {
-      path = "-> " + names[currentVertex] + " " + path;
+      path = turns[currentVertex] + "-> " + names[currentVertex] + " " + path;
       currentVertex = parent[currentVertex];
     }
   }
@@ -74,6 +93,7 @@ function dijkstras(graph, source, destination) {
   const dist = new Array(V);
   const sptSet = new Array(V).fill(false);
   const parent = new Array(V).fill(-1);
+  const turns = new Array(V);
 
   for (let i = 0; i < V; i++) {
     dist[i] = Infinity;
@@ -95,11 +115,12 @@ function dijkstras(graph, source, destination) {
       ) {
         parent[v] = u;
         dist[v] = dist[u] + graph[u][v];
+        turns[v] = graphTurns[u][v];
       }
     }
   }
 
-  getRestPath(parent, destination);
+  getRestPath(parent, destination, turns);
   printSolution(dist, parent, source, destination);
 }
 
