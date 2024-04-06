@@ -40,12 +40,25 @@ function minDistance(dist, sptSet) {
   }
   return min_index;
 }
-
+/*
 function getRestPath(parent, destination) {
   let currentVertex = destination;
   while (currentVertex !== -1) {
     path = "-> " + names[currentVertex] + "\n" + path;
     currentVertex = parent[currentVertex];
+  }
+} */
+
+function getRestPath(dist, parent, destination) {
+  let currentVertex = destination;
+  while (currentVertex !== -1) {
+    const previousVertex = parent[currentVertex];
+    if (previousVertex === -1) {
+      break; // Exit the loop if there is no parent vertex
+    }
+    const seconds = dist[currentVertex] - dist[previousVertex];
+    path = "-> " + names[currentVertex] + "\n" + " ^ " + seconds + " seconds to" + "\n" + path;
+    currentVertex = previousVertex; // Update currentVertex to its parent for the next iteration
   }
 }
 
@@ -99,7 +112,7 @@ function dijkstras(graph, source, destination) {
     }
   }
 
-  getRestPath(parent, destination);
+  getRestPath(dist, parent, destination);
   printSolution(dist, parent, source, destination);
   printTime(dist, parent, source, destination);
   console.log("Result: ", result);
