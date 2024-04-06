@@ -62,7 +62,12 @@ export default function Home() {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleButtonClick = () => {
-    setShowPopup(true);
+    if (origin && destination) {
+      setShowPopup(true);
+    } else {
+      // Alert the user or handle the case where both origin and destination are not selected
+      alert("Please select both origin and destination.");
+    }
   };
 
   return (
@@ -137,8 +142,10 @@ export default function Home() {
           cursor: "pointer",
           transition: "background-color 0.3s, color 0.3s",
         }}
+        // Disable the button if either origin or destination is empty
+        disabled={!origin || !destination}
       >
-        Get Path
+      Get Path
       </Button>
       {showPopup && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
