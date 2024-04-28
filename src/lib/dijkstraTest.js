@@ -36,7 +36,7 @@ const graph = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0], // DODGE GROUND (14)
 ];
 
-export const graphTurns = [
+const graphTurns = [
   [
     "",
     "Continue Straight ",
