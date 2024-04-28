@@ -221,8 +221,7 @@ export const graphTurns = [
     "",
     "",
     "",
-    "",
-    "Continue Straight, then Stairs On The Left",
+    "Continue Straight, Then Climb The Stairs On The Left", // 14
   ], // DODGE TUNNEL (13)
   [
     "",
@@ -238,8 +237,7 @@ export const graphTurns = [
     "",
     "",
     "",
-    "",
-    "Descend, Turn Right, Then Continue Straight",
+    "Descend, Turn Right, Then Continue Straight", // 13
     "",
   ], // DODGE GROUND (14)
 ];

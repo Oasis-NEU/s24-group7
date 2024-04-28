@@ -257,8 +257,7 @@ const graphTurns = [
     "",
     "",
     "",
-    "",
-    "Continue Straight, Then Climb The Stairs On The Left",
+    "Continue Straight, Then Climb The Stairs On The Left", // 14
   ], // DODGE TUNNEL (13)
   [
     "",
@@ -274,8 +273,7 @@ const graphTurns = [
     "",
     "",
     "",
-    "",
-    "Descend, Turn Right, Then Continue Straight",
+    "Descend, Turn Right, Then Continue Straight", // 13
     "",
   ], // DODGE GROUND (14)
 ];
